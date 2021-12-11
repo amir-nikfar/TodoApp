@@ -8,6 +8,12 @@ class TodoContextProvider extends Component {
         this.state = {
             todos: [
                 {name: 'do something'},
+                {name: 'do something'},
+                {name: 'do something'},
+                {name: 'do something'},
+                {name: 'do something'},
+                {name: 'do something'},
+                {name: 'do something'},
             ]
         };
     }
