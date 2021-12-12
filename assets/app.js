@@ -1,6 +1,4 @@
-import './styles/app.css';
-import './bootstrap';
-
+import {CssBaseline} from "@mui/material";
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import TodoContextProvider from "./contexts/TodoContext";
@@ -10,7 +8,9 @@ class App extends Component {
     render() {
         return (
             <TodoContextProvider>
-                <TodoTable/>
+                <CssBaseline>
+                    <TodoTable/>
+                </CssBaseline>
             </TodoContextProvider>
         );
     }
