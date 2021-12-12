@@ -25,9 +25,10 @@ class TodoContextProvider extends Component {
                 });
             })
             .catch(error => {
-                console.error(error)
+                console.error(error);
             });
     }
+
     // Read
     readTodo() {
         axios.get('/api/todo/read')
@@ -37,32 +38,46 @@ class TodoContextProvider extends Component {
                 })
             })
             .catch(error => {
-                console.error(error)
+                console.error(error);
             });
     }
+
     // Update
     updateTodo(data) {
-        let todos = [...this.state.todos];
-        let todo = todos.find(todo => {
-            return todo.id === data.id;
-        });
-        todo.name = data.name;
-        this.setState({
-            todos: todos
-        });
+        axios.put('/api/todo/update/' + data.id, data)
+            .then(response => {
+                let todos = [...this.state.todos];
+                let todo = todos.find(todo => {
+                    return todo.id === data.id;
+                });
+                todo.name = data.name;
+                this.setState({
+                    todos: todos
+                });
+            })
+            .catch(error => {
+                console.error(error);
+            });
     }
+
     // Delete
     deleteTodo(data) {
-        let todos = [...this.state.todos];
-        let todo = todos.find(todo => {
-            return todo.id === data.id;
-        });
+        axios.delete('/api/todo/delete/' + data.id)
+            .then(response => {
+                let todos = [...this.state.todos];
+                let todo = todos.find(todo => {
+                    return todo.id === data.id;
+                });
 
-        todos.splice(todos.indexOf(todo), 1)
+                todos.splice(todos.indexOf(todo), 1)
 
-        this.setState({
-            todos: todos
-        })
+                this.setState({
+                    todos: todos
+                });
+            })
+            .catch(error => {
+                console.error(error);
+            });
     }
 
     render() {
