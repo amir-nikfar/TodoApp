@@ -15,11 +15,18 @@ class TodoContextProvider extends Component {
     // Create
     createTodo(event, data) {
         event.preventDefault();
-        let todos = [...this.state.todos];
-        todos.push(data);
-        this.setState({
-            todos: todos,
-        });
+        axios.post('/api/todo/create', data)
+            .then(response => {
+                console.log(response.data);
+                let todos = [...this.state.todos];
+                todos.push(response.data.todo);
+                this.setState({
+                    todos: todos,
+                });
+            })
+            .catch(error => {
+                console.error(error)
+            });
     }
     // Read
     readTodo() {
@@ -30,26 +37,26 @@ class TodoContextProvider extends Component {
                 })
             })
             .catch(error => {
-                console.log(error)
-            })
+                console.error(error)
+            });
     }
     // Update
     updateTodo(data) {
         let todos = [...this.state.todos];
         let todo = todos.find(todo => {
             return todo.id === data.id;
-        })
+        });
         todo.name = data.name;
         this.setState({
             todos: todos
-        })
+        });
     }
     // Delete
     deleteTodo(data) {
         let todos = [...this.state.todos];
         let todo = todos.find(todo => {
             return todo.id === data.id;
-        })
+        });
 
         todos.splice(todos.indexOf(todo), 1)
 
