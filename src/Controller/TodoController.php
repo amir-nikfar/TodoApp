@@ -37,7 +37,8 @@ class TodoController extends AbstractController
 
         $todo = new Todo();
 
-        $todo->setName($content->name);
+        $todo->setTask($content->task);
+        $todo->setDescription($content->description);
 
         try {
             $this->entityManager->persist($todo);
@@ -50,7 +51,7 @@ class TodoController extends AbstractController
 
         return $this->json([
             'todo' => $todo->toArray(),
-            'message' => ['text' => ['Todo has been created successfully!', 'Task: ' . $content->name], 'level' => 'success']
+            'message' => ['text' => ['Todo has been created successfully!', 'Task: ' . $content->task], 'level' => 'success']
         ]);
      }
 
@@ -79,7 +80,15 @@ class TodoController extends AbstractController
     public function update(Request $request, Todo $todo)
     {
         $content = json_decode($request->getContent());
-        $todo->setName($content->name);
+
+        if ($todo->getTask() === $content->task && $todo->getDescription() === $content->description) {
+            return $this->json([
+               'message' => ['text' => 'There was no change to the Todo!', 'level' => 'warning']
+            ]);
+        }
+
+        $todo->setTask($content->task);
+        $todo->setDescription($content->description);
 
         try {
             $this->entityManager->flush();
@@ -88,8 +97,10 @@ class TodoController extends AbstractController
                 'message' => ['text' => ['Could not update Todo!'], 'level' => 'error']
             ]);
         }
+
         return $this->json([
-            'message' => ['text' => ['Todo has been updated successfully!', 'Task: ' . $content->name], 'level' => 'success']
+            'todo' => $todo->toArray(),
+            'message' => ['text' => ['Todo has been updated successfully!', 'Task: ' . $content->task], 'level' => 'success']
         ]);
 
     }

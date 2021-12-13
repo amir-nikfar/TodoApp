@@ -17,7 +17,7 @@ function DeleteDialog(props) {
         <Dialog onClose={hide} fullWidth={true} maxWidth='sm' open={props.open}>
             <DialogTitle>Are you sure you wish to delete?</DialogTitle>
             <DialogContent>
-                {props.todo.name}
+                {props.todo.task}
             </DialogContent>
             <DialogActions>
                 <Button onClick={hide}>Cancel</Button>
@@ -37,7 +37,7 @@ DeleteDialog.propTypes = {
     setDeleteConfirmationIsShown: PropTypes.func.isRequired,
     todo: PropTypes.shape({
         id: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired
+        task: PropTypes.string.isRequired
     })
 };
 

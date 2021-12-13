@@ -53,25 +53,27 @@ class TodoContextProvider extends Component {
     updateTodo(data) {
         axios.put('/api/todo/update/' + data.id, data)
             .then(response => {
-                if(response.data.message.level === 'success') {
+                if (response.data.message.level === 'error') {
+                    this.setState({
+                        message: response.data.message,
+                    });
+                } else {
                     let todos = [...this.state.todos];
                     let todo = todos.find(todo => {
                         return todo.id === data.id;
                     });
-                    todo.name = data.name;
+
+                    todo.task = response.data.todo.task;
+                    todo.description = response.data.todo.description;
+
                     this.setState({
                         todos: todos,
                         message: response.data.message,
                     });
-                } else {
-                    this.setState({
-                        message: response.data.message,
-                    })
                 }
-            })
-            .catch(error => {
-                console.error(error);
-            });
+            }).catch(error => {
+            console.error(error);
+        });
     }
 
     // Delete
