@@ -23,13 +23,8 @@ function AppSnackbar() {
         <Snackbar autoHideDuration={6000} open={context.message.text !== undefined}>
             {context.message.text && (
                 <SnackbarContent
-                    style={{backgroundColor: checkLevel(context.message.level)}}
-                    message={context.message.text.map((text, index) => (
-                    <Fragment key={index + ' ' + index}>
-                        <span>{text}</span>
-                        <br/>
-                    </Fragment>
-                    ))}
+                    style={{backgroundColor: checkLevel(context.message.level), whiteSpace: 'pre'}}
+                    message={context.message.text}
                     action={[
                     <Button
                         onClick={() => {context.setMessage({})}}
